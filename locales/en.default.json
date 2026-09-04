@@ -8,7 +8,8 @@
   },
   "footer": {
     "information": "Information",
-    "licensing": "Licensing"
+    "licensing": "Licensing",
+    "privacy_policy": "Privacy Policy"
   },
   "licensing": {
     "eyebrow": "Officially licensed",
@@ -37,5 +38,9 @@
     "total": "Total",
     "update": "Update cart",
     "checkout": "Checkout"
+  },
+  "privacy": {
+    "eyebrow": "Your data and privacy",
+    "return": "Return to shop"
   }
 }
