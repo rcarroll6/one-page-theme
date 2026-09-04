@@ -6,6 +6,19 @@
     "cart": "Cart",
     "home": "Original Stormtrooper Coffee home"
   },
+  "footer": {
+    "information": "Information",
+    "licensing": "Licensing"
+  },
+  "licensing": {
+    "eyebrow": "Officially licensed",
+    "title": "Licensing",
+    "brand": "Original Stormtrooper Coffee",
+    "first_paragraph": "Original Stormtrooper Coffee is officially licensed by Shepperton Design Studios. Products developed under the licence are inspired by the actual moulds produced by Andrew Ainsworth to make the iconic helmets and costumes back in 1976.",
+    "second_paragraph": "Original Stormtrooper Coffee is true to the original design and approved by Andrew himself… the authentic manufacturer.",
+    "approval_alt": "Shepperton Design Studios seal of approval and Andrew Ainsworth signature",
+    "return": "Return to shop"
+  },
   "product": {
     "eyebrow": "Freshly roasted coffee",
     "heading": "One coffee. Two formats.",
