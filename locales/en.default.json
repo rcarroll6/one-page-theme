@@ -9,7 +9,8 @@
   "footer": {
     "information": "Information",
     "licensing": "Licensing",
-    "privacy_policy": "Privacy Policy"
+    "privacy_policy": "Privacy Policy",
+    "contact": "Contact Us"
   },
   "licensing": {
     "eyebrow": "Officially licensed",
@@ -41,6 +42,19 @@
   },
   "privacy": {
     "eyebrow": "Your data and privacy",
+    "return": "Return to shop"
+  },
+  "contact": {
+    "eyebrow": "Transmit a message",
+    "title": "Contact Us",
+    "intro": "Questions about an order or the coffee itself? Our communications channel is open.",
+    "email_title": "Email",
+    "email_text": "For customer service and general enquiries, email us at:",
+    "whatsapp_title": "WhatsApp",
+    "whatsapp_text": "For a faster response to submitted orders or questions about the coffee, drop us a message on WhatsApp.",
+    "text_only": "Text-only service — please do not call",
+    "whatsapp_button": "Message +44 7418 362 987",
+    "mystery": "We do not answer calls. We are deeply mysterious and cannot allow our true identity to be revealed to the rebels.",
     "return": "Return to shop"
   }
 }
