@@ -1,0 +1,23 @@
+<div class="cart-page">
+  <h1>{{ 'cart.title' | t }}</h1>
+  {% if cart.empty? %}
+    <p>{{ 'cart.empty' | t }}</p>
+    <a href="{{ routes.root_url }}">{{ 'cart.continue' | t }}</a>
+  {% else %}
+    <form action="{{ routes.cart_url }}" method="post">
+      {% for item in cart.items %}
+        <div class="cart-item">
+          <span>{{ item.product.title }} — {{ item.variant.title }}</span>
+          <span>{{ item.final_line_price | money }}</span>
+          <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="{{ 'cart.quantity' | t }}">
+        </div>
+      {% endfor %}
+      <p>{{ 'cart.total' | t }}: {{ cart.total_price | money }}</p>
+      <button type="submit" name="update">{{ 'cart.update' | t }}</button>
+      <button type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+    </form>
+  {% endif %}
+</div>
+<style>
+  body{margin:0;background:#100c09;color:#f1e2bd;font-family:Arial,sans-serif}.cart-page{max-width:760px;margin:0 auto;padding:64px 24px}.cart-item{display:grid;grid-template-columns:1fr auto 72px;gap:16px;padding:18px 0;border-bottom:1px solid #6d513b}.cart-page button,.cart-page a{display:inline-block;margin:12px 8px 0 0;padding:14px 22px;background:#e8522f;color:#fff;border:0;text-decoration:none;font-weight:700}.cart-page input{width:60px;background:#1c1510;color:#fff;border:1px solid #8c745c;padding:8px}
+</style>

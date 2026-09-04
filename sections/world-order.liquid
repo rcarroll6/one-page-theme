@@ -1,0 +1,92 @@
+{% liquid
+  assign featured_product = product
+  if featured_product == blank
+    assign featured_product = all_products['world-order-coffee']
+  endif
+  assign selected_variant = featured_product.selected_or_first_available_variant
+%}
+
+<section class="wo" data-section-id="{{ section.id }}">
+  <div class="wo__scrim"></div>
+  <header class="wo__header">
+    <a class="wo__brand" href="{{ routes.root_url }}">WORLD<br>ORDER</a>
+    <a class="wo__cart" href="{{ routes.cart_url }}" aria-label="{{ 'general.cart' | t }}">
+      <span aria-hidden="true">◫</span> {{ 'general.cart' | t }} ({{ cart.item_count }})
+    </a>
+  </header>
+
+  <div class="wo__content">
+    <div class="wo__product-image">
+      {% if featured_product.featured_image %}
+        {{ featured_product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '600,900,1200,1400', sizes: '(min-width: 900px) 56vw, 90vw', alt: featured_product.featured_image.alt }}
+      {% endif %}
+    </div>
+
+    <div class="wo__buy">
+      <p class="wo__eyebrow">{{ 'product.eyebrow' | t }}</p>
+      <h1>{{ 'product.heading' | t }}</h1>
+      <p class="wo__intro">{{ 'product.intro' | t }}</p>
+
+      {% if featured_product != blank %}
+        {% form 'product', featured_product, class: 'wo__form' %}
+          <fieldset class="wo__options">
+            <legend class="visually-hidden">{{ 'product.choose_format' | t }}</legend>
+            {% for variant in featured_product.variants %}
+              <label class="wo__option">
+                <input
+                  type="radio"
+                  name="world-order-variant"
+                  value="{{ variant.id }}"
+                  data-price="{{ variant.price | money }}"
+                  {% if variant.id == selected_variant.id %}checked{% endif %}
+                  {% unless variant.available %}disabled{% endunless %}
+                >
+                <span class="wo__radio"></span>
+                <span class="wo__option-copy">
+                  <strong>{{ variant.title }}</strong>
+                  <small>{% if variant.title contains '250g' %}{{ 'product.bag_note' | t }}{% else %}{{ 'product.tin_note' | t }}{% endif %}</small>
+                </span>
+                <span class="wo__price">{{ variant.price | money }}</span>
+              </label>
+            {% endfor %}
+          </fieldset>
+          <input class="wo__variant-id" type="hidden" name="id" value="{{ selected_variant.id }}">
+          <button class="wo__button" type="submit" {% unless selected_variant.available %}disabled{% endunless %}>
+            {{ 'product.purchase' | t }} · <span class="wo__button-price">{{ selected_variant.price | money }}</span>
+          </button>
+        {% endform %}
+      {% else %}
+        <p>{{ 'product.unavailable' | t }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  :root{color-scheme:dark}*{box-sizing:border-box}.skip-link{position:absolute;left:-9999px}.skip-link:focus{left:16px;top:16px;z-index:20;background:#fff;color:#000;padding:12px}.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.wo{min-height:100svh;position:relative;overflow:hidden;background:#100c09 url('https://cdn.shopify.com/s/files/1/0509/8284/6628/files/world-order-background-artwork.jpg?v=1788536886') center/cover fixed;color:#f3e5c3;font-family:Arial,Helvetica,sans-serif}.wo__scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.45),rgba(8,6,5,.3) 48%,rgba(8,6,5,.86) 75%),linear-gradient(0deg,rgba(8,6,5,.55),rgba(8,6,5,.12));backdrop-filter:saturate(.8)}.wo__header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;padding:32px 4vw}.wo__brand{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:clamp(1.4rem,2.2vw,2.5rem);line-height:.72;letter-spacing:-.04em;color:#ead7aa;text-shadow:3px 3px 0 #111,-1px -1px 0 #b47d39;text-decoration:none}.wo__cart{color:#f3e5c3;text-decoration:none;font-weight:700;letter-spacing:.16em;font-size:.82rem;padding:12px}.wo__content{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.75fr);align-items:end;gap:2vw;max-width:1600px;margin:0 auto;padding:0 4vw 4vw;min-height:calc(100svh - 110px)}.wo__product-image{align-self:end;display:flex;justify-content:center}.wo__product-image img{display:block;width:min(100%,900px);height:auto;filter:drop-shadow(0 28px 35px rgba(0,0,0,.55))}.wo__buy{align-self:center;max-width:520px;padding:28px 0}.wo__eyebrow{text-transform:uppercase;letter-spacing:.24em;color:#e85b38;font-weight:800;font-size:.72rem;margin:0 0 12px}.wo h1{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:clamp(3rem,5vw,6rem);line-height:.88;letter-spacing:.01em;text-transform:uppercase;margin:0;max-width:8ch;color:#efe0bd;text-shadow:0 4px 20px #000}.wo__intro{font-size:clamp(1rem,1.2vw,1.18rem);line-height:1.55;max-width:42ch;color:#e5d7bf;margin:22px 0 26px}.wo__form{background:rgba(14,10,8,.82);border:1px solid rgba(235,216,178,.35);padding:20px;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.35);backdrop-filter:blur(12px)}.wo__options{border:0;padding:0;margin:0}.wo__option{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:13px;padding:15px 14px;border:1px solid rgba(239,224,189,.28);border-radius:9px;margin-bottom:12px;cursor:pointer;transition:border-color .2s,background .2s}.wo__option:has(input:checked){border-color:#e8522f;background:rgba(232,82,47,.1)}.wo__option input{position:absolute;opacity:0}.wo__radio{width:18px;height:18px;border:2px solid #cdb990;border-radius:50%}.wo__option:has(input:checked) .wo__radio{border:5px solid #e8522f}.wo__option-copy{display:flex;flex-direction:column;gap:3px}.wo__option-copy strong{font-size:.82rem;letter-spacing:.14em;text-transform:uppercase}.wo__option-copy small{color:#bfae94}.wo__price{font-weight:800}.wo__button{width:100%;border:0;border-radius:8px;padding:17px 20px;background:#e8522f;color:#fff;text-transform:uppercase;font-weight:900;letter-spacing:.14em;font-size:.9rem;cursor:pointer}.wo__button:hover{background:#ff633e}.wo__button:disabled{opacity:.5;cursor:not-allowed}@media(max-width:899px){.wo{background-attachment:scroll}.wo__header{padding:22px}.wo__content{grid-template-columns:1fr;padding:10px 22px 28px;gap:0}.wo__product-image img{width:min(100%,650px)}.wo__buy{max-width:none;padding-top:0}.wo h1{font-size:clamp(3rem,14vw,5rem)}.wo__scrim{background:linear-gradient(0deg,rgba(8,6,5,.92) 0%,rgba(8,6,5,.46) 62%,rgba(8,6,5,.35))}}
+{% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('[data-section-id]').forEach((section) => {
+    const variantId = section.querySelector('.wo__variant-id');
+    const buttonPrice = section.querySelector('.wo__button-price');
+    section.querySelectorAll('input[name="world-order-variant"]').forEach((input) => {
+      input.addEventListener('change', () => {
+        variantId.value = input.value;
+        buttonPrice.textContent = input.dataset.price;
+      });
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "World Order storefront",
+  "settings": [],
+  "presets": [
+    {
+      "name": "World Order storefront"
+    }
+  ]
+}
+{% endschema %}

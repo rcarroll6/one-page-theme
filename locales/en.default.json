@@ -1,0 +1,27 @@
+{
+  "accessibility": {
+    "skip_to_content": "Skip to content"
+  },
+  "general": {
+    "cart": "Cart"
+  },
+  "product": {
+    "eyebrow": "Freshly roasted coffee",
+    "heading": "One coffee. Two formats.",
+    "intro": "The same freshly roasted coffee, available in a 250g bag or a limited 155g collector’s tin.",
+    "choose_format": "Choose your format",
+    "bag_note": "250g resealable bag",
+    "tin_note": "155g limited collector’s tin",
+    "purchase": "Purchase",
+    "unavailable": "World Order Coffee is temporarily unavailable."
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "continue": "Continue shopping",
+    "quantity": "Quantity",
+    "total": "Total",
+    "update": "Update cart",
+    "checkout": "Checkout"
+  }
+}

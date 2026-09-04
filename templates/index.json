@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "world_order": {
+      "type": "world-order",
+      "settings": {}
+    }
+  },
+  "order": ["world_order"]
+}
