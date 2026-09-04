@@ -1,23 +1,46 @@
-<div class="cart-page">
-  <h1>{{ 'cart.title' | t }}</h1>
-  {% if cart.empty? %}
-    <p>{{ 'cart.empty' | t }}</p>
-    <a href="{{ routes.root_url }}">{{ 'cart.continue' | t }}</a>
-  {% else %}
-    <form action="{{ routes.cart_url }}" method="post">
-      {% for item in cart.items %}
-        <div class="cart-item">
-          <span>{{ item.product.title }} — {{ item.variant.title }}</span>
-          <span>{{ item.final_line_price | money }}</span>
-          <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="{{ 'cart.quantity' | t }}">
-        </div>
-      {% endfor %}
-      <p>{{ 'cart.total' | t }}: {{ cart.total_price | money }}</p>
-      <button type="submit" name="update">{{ 'cart.update' | t }}</button>
-      <button type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
-    </form>
-  {% endif %}
+<div class="cart-scene">
+  <div class="cart-scene__scrim"></div>
+  <header class="cart-header">
+    <a class="cart-logo" href="{{ routes.root_url }}" aria-label="{{ 'general.home' | t }}">
+      <img src="https://cdn.shopify.com/s/files/1/0509/8284/6628/files/original-stormtrooper-coffee-logo.png?v=1788537656" alt="Original Stormtrooper Coffee" width="880" height="882">
+    </a>
+  </header>
+  <div class="cart-page">
+    <div class="cart-panel">
+      <h1>{{ 'cart.title' | t }}</h1>
+      {% if cart.empty? %}
+        <p>{{ 'cart.empty' | t }}</p>
+        <a class="cart-action" href="{{ routes.root_url }}">{{ 'cart.continue' | t }}</a>
+      {% else %}
+        <form action="{{ routes.cart_url }}" method="post">
+          {% for item in cart.items %}
+            <div class="cart-item">
+              {% if item.image %}
+                {{ item.image | image_url: width: 180 | image_tag: class: 'cart-item__image', loading: 'eager', alt: item.image.alt }}
+              {% endif %}
+              <div class="cart-item__details">
+                <strong>{{ item.product.title }}</strong>
+                <span>{{ item.variant.title }}</span>
+              </div>
+              <span class="cart-item__price">{{ item.final_line_price | money }}</span>
+              <label class="cart-item__quantity">
+                <span>{{ 'cart.quantity' | t }}</span>
+                <input type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+              </label>
+            </div>
+          {% endfor %}
+          <div class="cart-summary">
+            <p><span>{{ 'cart.total' | t }}</span><strong>{{ cart.total_price | money }}</strong></p>
+            <div class="cart-buttons">
+              <button class="cart-action cart-action--secondary" type="submit" name="update">{{ 'cart.update' | t }}</button>
+              <button class="cart-action" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+            </div>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+  </div>
 </div>
 <style>
-  body{margin:0;background:#100c09;color:#f1e2bd;font-family:Arial,sans-serif}.cart-page{max-width:760px;margin:0 auto;padding:64px 24px}.cart-item{display:grid;grid-template-columns:1fr auto 72px;gap:16px;padding:18px 0;border-bottom:1px solid #6d513b}.cart-page button,.cart-page a{display:inline-block;margin:12px 8px 0 0;padding:14px 22px;background:#e8522f;color:#fff;border:0;text-decoration:none;font-weight:700}.cart-page input{width:60px;background:#1c1510;color:#fff;border:1px solid #8c745c;padding:8px}
+  body{margin:0;background:#100c09;color:#f1e2bd;font-family:Arial,sans-serif}.cart-scene{position:relative;min-height:100svh;background:#100c09 url('https://cdn.shopify.com/s/files/1/0509/8284/6628/files/world-order-background-artwork.jpg?v=1788536886') center/cover fixed}.cart-scene__scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.46),rgba(8,6,5,.82)),linear-gradient(0deg,rgba(8,6,5,.78),rgba(8,6,5,.18))}.cart-header{position:relative;z-index:1;padding:24px 4vw}.cart-logo{display:block;width:clamp(82px,8vw,126px);border-radius:50%;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.45)}.cart-logo img{display:block;width:100%;height:auto}.cart-page{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:24px 24px 72px}.cart-panel{background:rgba(14,10,8,.88);border:1px solid rgba(235,216,178,.35);border-radius:16px;padding:clamp(24px,5vw,56px);box-shadow:0 22px 70px rgba(0,0,0,.5);backdrop-filter:blur(14px)}.cart-panel h1{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:clamp(3rem,7vw,5.5rem);line-height:.9;text-transform:uppercase;margin:0 0 30px;color:#efe0bd}.cart-item{display:grid;grid-template-columns:92px 1fr auto 90px;align-items:center;gap:18px;padding:20px 0;border-bottom:1px solid rgba(235,216,178,.25)}.cart-item__image{display:block;width:92px;height:92px;object-fit:cover;border-radius:8px}.cart-item__details{display:flex;flex-direction:column;gap:6px}.cart-item__details strong{text-transform:uppercase;letter-spacing:.08em}.cart-item__details span{color:#bfae94}.cart-item__price{font-weight:800}.cart-item__quantity{display:flex;flex-direction:column;gap:5px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em}.cart-item__quantity input{width:72px;background:#1c1510;color:#fff;border:1px solid #8c745c;border-radius:5px;padding:9px}.cart-summary{padding-top:26px}.cart-summary p{display:flex;justify-content:space-between;font-size:1.25rem}.cart-buttons{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap}.cart-action{display:inline-block;padding:15px 24px;background:#e8522f;color:#fff;border:1px solid #e8522f;border-radius:7px;text-decoration:none;font-weight:800;text-transform:uppercase;letter-spacing:.1em;cursor:pointer}.cart-action--secondary{background:transparent;border-color:#8c745c;color:#f1e2bd}@media(max-width:680px){.cart-scene{background-attachment:scroll}.cart-header{padding:18px 22px}.cart-logo{width:82px}.cart-page{padding:8px 18px 42px}.cart-item{grid-template-columns:72px 1fr auto}.cart-item__image{width:72px;height:72px}.cart-item__quantity{grid-column:2/4;flex-direction:row;align-items:center}.cart-buttons{display:grid}.cart-action{text-align:center}}
 </style>
