@@ -4,7 +4,9 @@
   },
   "general": {
     "cart": "Cart",
-    "home": "Original Stormtrooper Coffee home"
+    "home": "Original Stormtrooper Coffee home",
+    "my_account": "My account",
+    "account_navigation": "Account and cart"
   },
   "footer": {
     "information": "Information",
