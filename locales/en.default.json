@@ -8,21 +8,6 @@
     "my_account": "My account",
     "account_navigation": "Account and cart"
   },
-  "footer": {
-    "information": "Information",
-    "licensing": "Licensing",
-    "privacy_policy": "Privacy Policy",
-    "contact": "Contact Us"
-  },
-  "licensing": {
-    "eyebrow": "Officially licensed",
-    "title": "Licensing",
-    "brand": "Original Stormtrooper Coffee",
-    "first_paragraph": "Original Stormtrooper Coffee is officially licensed by Shepperton Design Studios. Products developed under the licence are inspired by the actual moulds produced by Andrew Ainsworth to make the iconic helmets and costumes back in 1976.",
-    "second_paragraph": "Original Stormtrooper Coffee is true to the original design and approved by Andrew himself… the authentic manufacturer.",
-    "approval_alt": "Shepperton Design Studios seal of approval and Andrew Ainsworth signature",
-    "return": "Return to shop"
-  },
   "product": {
     "eyebrow": "Freshly roasted coffee",
     "heading": "One coffee. Two formats.",
@@ -33,49 +18,23 @@
     "purchase": "Purchase",
     "unavailable": "World Order Coffee is temporarily unavailable."
   },
-  "cart": {
-    "title": "Your cart",
-    "empty": "Your cart is empty.",
-    "continue": "Continue shopping",
-    "quantity": "Quantity",
-    "total": "Total",
-    "update": "Update cart",
-    "checkout": "Checkout"
-  },
-  "privacy": {
-    "eyebrow": "Your data and privacy",
-    "return": "Return to shop"
-  },
-  "contact": {
-    "eyebrow": "Transmit a message",
-    "title": "Contact Us",
-    "intro": "Questions about an order or the coffee itself? Our communication channels are open.",
-    "email_title": "Email",
-    "email_text": "For customer service and general enquiries, email us at:",
-    "whatsapp_title": "WhatsApp",
-    "whatsapp_text": "For a faster response to submitted orders or questions about the coffee, drop us a message on WhatsApp.",
-    "text_only": "Text-only service — please do not call",
-    "whatsapp_button": "Message +44 7418 362 987",
-    "mystery": "We do not answer calls. We are deeply mysterious and cannot allow our true identity to be revealed to the rebels.",
-    "return": "Return to shop"
-  },
   "subscription": {
     "icon_label": "Learn about the coffee subscription",
     "icon_text": "Subscribe",
     "shop": "Shop",
     "eyebrow": "Coffee subscription",
     "heading": "Two coffees. One delivery. Every two months.",
-    "intro": "Receive two different coffees in every delivery: the current monthly release and the following month’s coffee before it becomes available for individual sale.",
+    "intro": "We work in rolling two-month cycles. Whenever you join, your delivery contains that month’s coffee and the following month’s coffee before its individual release.",
     "early_title": "Subscriber early access:",
-    "early_text": "If World Order Coffee is January’s release, your January subscription delivery will also include February’s unreleased coffee. Subscribers taste it first.",
+    "early_text": "Join in January and you receive January’s Coffee A plus February’s unreleased Coffee B. Join in February and you receive February’s Coffee A plus March’s unreleased Coffee B. Every subscriber always receives early access to the following month’s coffee.",
     "art_alt": "Three illustrated Original Stormtrooper Coffee bags",
     "details_label": "How the coffee subscription works",
     "included_title": "What arrives",
     "included_text": "Two different coffees in your chosen format—one of each release.",
     "frequency_title": "Frequency",
-    "frequency_text": "One combined shipment every two months to reduce delivery journeys and packaging.",
+    "frequency_text": "Your first two-coffee delivery is based on the month you join. Future combined deliveries continue every two months to reduce delivery journeys and packaging.",
     "saving_title": "Price and shipping",
-    "saving_text": "Save 10% on the coffee. Your existing subscription shipping charge is added separately.",
+    "saving_text": "Save 20% on the coffee. Your existing subscription shipping charge is added separately.",
     "control_title": "You’re in control",
     "control_text": "Pause, skip or cancel through your customer account before the next billing date.",
     "purchase_eyebrow": "Choose your subscription",
@@ -94,5 +53,14 @@
     "faq_cancel_a": "Open My Account and manage the subscription before your next billing date. Changes apply to future deliveries and do not affect an order already processed.",
     "faq_shipping_q": "Is shipping included?",
     "faq_shipping_a": "No. The existing subscription shipping charge is calculated and added separately during checkout. Combining two coffees into one delivery reduces shipping frequency."
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "continue": "Continue shopping",
+    "quantity": "Quantity",
+    "total": "Total",
+    "update": "Update cart",
+    "checkout": "Checkout"
   }
 }
