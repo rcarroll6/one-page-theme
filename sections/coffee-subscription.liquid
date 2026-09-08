@@ -38,7 +38,7 @@
           <fieldset>
             <legend class="visually-hidden">{{ 'subscription.choose_format' | t }}</legend>
             {% for variant in subscription_product.variants %}
-              {% assign subscription_price = variant.price | times: 0.9 %}
+              {% assign subscription_price = variant.price | times: 0.8 %}
               <label class="sub-option">
                 <input type="radio" name="subscription-variant" value="{{ variant.id }}" data-price="{{ subscription_price | money }}" {% if variant.id == selected_variant.id %}checked{% endif %} {% unless variant.available %}disabled{% endunless %}>
                 <span class="sub-radio"></span><span><strong>{{ variant.title }}</strong><small>{{ 'subscription.option_note' | t }}</small></span><span class="sub-price"><s>{{ variant.price | money }}</s><b>{{ subscription_price | money }}</b></span>
@@ -48,7 +48,7 @@
           <input data-subscription-variant-id type="hidden" name="id" value="{{ selected_variant.id }}">
           <input type="hidden" name="selling_plan" value="{{ subscription_plan.id }}">
           <p class="sub-terms">{{ 'subscription.terms' | t }}</p>
-          {% assign initial_price = selected_variant.price | times: 0.9 %}
+          {% assign initial_price = selected_variant.price | times: 0.8 %}
           <button type="submit" {% unless selected_variant.available %}disabled{% endunless %}>{{ 'subscription.purchase' | t }} · <span data-subscription-price>{{ initial_price | money }}</span></button>
         {% endform %}
       {% else %}
