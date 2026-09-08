@@ -4,6 +4,10 @@
     assign featured_product = all_products['world-order-coffee']
   endif
   assign selected_variant = featured_product.selected_or_first_available_variant
+  assign subscription_product = all_products['monthly-coffee-subscription-1']
+  assign subscription_variant = subscription_product.selected_or_first_available_variant
+  assign subscription_group = subscription_product.selling_plan_groups | first
+  assign subscription_plan = subscription_group.selling_plans | first
 %}
 
 <section class="wo" data-section-id="{{ section.id }}">
@@ -13,9 +17,7 @@
       <img src="https://cdn.shopify.com/s/files/1/0509/8284/6628/files/original-stormtrooper-coffee-logo.png?v=1788537656" alt="Original Stormtrooper Coffee" width="880" height="882">
     </a>
     <nav class="wo__actions" aria-label="{{ 'general.account_navigation' | t }}">
-      <a class="wo__account" href="https://account.originalstormtroopercoffee.com/">
-        {{ 'general.my_account' | t }}
-      </a>
+      <a class="wo__account" href="https://account.originalstormtroopercoffee.com/">{{ 'general.my_account' | t }}</a>
       <a class="wo__cart" href="{{ routes.cart_url }}" aria-label="{{ 'general.cart' | t }}">
         <span aria-hidden="true">◫</span> {{ 'general.cart' | t }} ({{ cart.item_count }})
       </a>
@@ -67,10 +69,56 @@
       {% endif %}
     </div>
   </div>
+
+  {% if subscription_product != blank and subscription_plan != blank %}
+    <section class="wo__subscription" aria-labelledby="subscription-heading">
+      <div class="wo__subscription-copy">
+        <p class="wo__eyebrow">{{ 'subscription.eyebrow' | t }}</p>
+        <h2 id="subscription-heading">{{ 'subscription.heading' | t }}</h2>
+        <p>{{ 'subscription.intro' | t }}</p>
+        <ul>
+          <li>{{ 'subscription.benefit_coffee' | t }}</li>
+          <li>{{ 'subscription.benefit_saving' | t }}</li>
+          <li>{{ 'subscription.benefit_control' | t }}</li>
+        </ul>
+      </div>
+      {% form 'product', subscription_product, class: 'wo__form wo__subscription-form' %}
+        <fieldset class="wo__options">
+          <legend>{{ 'subscription.choose_format' | t }}</legend>
+          {% for variant in subscription_product.variants %}
+            {% assign subscription_price = variant.price | times: 0.9 %}
+            <label class="wo__option">
+              <input
+                type="radio"
+                name="subscription-variant"
+                value="{{ variant.id }}"
+                data-price="{{ subscription_price | money }}"
+                {% if variant.id == subscription_variant.id %}checked{% endif %}
+                {% unless variant.available %}disabled{% endunless %}
+              >
+              <span class="wo__radio"></span>
+              <span class="wo__option-copy">
+                <strong>{{ variant.title }}</strong>
+                <small>{{ 'subscription.monthly' | t }}</small>
+              </span>
+              <span class="wo__subscription-price"><s>{{ variant.price | money }}</s><strong>{{ subscription_price | money }}</strong></span>
+            </label>
+          {% endfor %}
+        </fieldset>
+        <input class="wo__subscription-variant-id" type="hidden" name="id" value="{{ subscription_variant.id }}">
+        <input type="hidden" name="selling_plan" value="{{ subscription_plan.id }}">
+        <p class="wo__terms">{{ 'subscription.terms' | t }}</p>
+        {% assign initial_subscription_price = subscription_variant.price | times: 0.9 %}
+        <button class="wo__button" type="submit" {% unless subscription_variant.available %}disabled{% endunless %}>
+          {{ 'subscription.purchase' | t }} · <span class="wo__subscription-button-price">{{ initial_subscription_price | money }}</span>
+        </button>
+      {% endform %}
+    </section>
+  {% endif %}
 </section>
 
 {% stylesheet %}
-  :root{color-scheme:dark}*{box-sizing:border-box}.skip-link{position:absolute;left:-9999px}.skip-link:focus{left:16px;top:16px;z-index:20;background:#fff;color:#000;padding:12px}.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.wo{min-height:100svh;position:relative;overflow:hidden;background:#100c09 url('https://cdn.shopify.com/s/files/1/0509/8284/6628/files/world-order-background-artwork.jpg?v=1788536886') center/cover fixed;color:#f3e5c3;font-family:Arial,Helvetica,sans-serif}.wo__scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.45),rgba(8,6,5,.3) 48%,rgba(8,6,5,.86) 75%),linear-gradient(0deg,rgba(8,6,5,.55),rgba(8,6,5,.12));backdrop-filter:saturate(.8)}.wo__header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;padding:24px 4vw}.wo__brand{display:block;width:clamp(82px,8vw,126px);border-radius:50%;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.45);transition:transform .2s ease}.wo__brand:hover{transform:scale(1.04)}.wo__brand img{display:block;width:100%;height:auto}.wo__actions{display:flex;align-items:center;gap:18px}.wo__account{display:flex;align-items:center;color:#f3e5c3;text-decoration:none;font-weight:700;letter-spacing:.12em;font-size:.76rem;text-transform:uppercase;padding:12px}.wo__account:hover{color:#e8522f}.wo__cart{color:#f3e5c3;text-decoration:none;font-weight:700;letter-spacing:.16em;font-size:.82rem;padding:12px}.wo__content{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.75fr);align-items:end;gap:2vw;max-width:1600px;margin:0 auto;padding:0 4vw 4vw;min-height:calc(100svh - 130px)}.wo__product-image{align-self:end;display:flex;justify-content:center}.wo__product-image img{display:block;width:min(100%,900px);height:auto;filter:drop-shadow(0 28px 35px rgba(0,0,0,.55))}.wo__buy{align-self:center;max-width:520px;padding:28px 0}.wo__eyebrow{text-transform:uppercase;letter-spacing:.24em;color:#e85b38;font-weight:800;font-size:.72rem;margin:0 0 12px}.wo h1{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:clamp(3rem,5vw,6rem);line-height:.88;letter-spacing:.01em;text-transform:uppercase;margin:0;max-width:8ch;color:#efe0bd;text-shadow:0 4px 20px #000}.wo__intro{font-size:clamp(1rem,1.2vw,1.18rem);line-height:1.55;max-width:42ch;color:#e5d7bf;margin:22px 0 26px}.wo__form{background:rgba(14,10,8,.82);border:1px solid rgba(235,216,178,.35);padding:20px;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.35);backdrop-filter:blur(12px)}.wo__options{border:0;padding:0;margin:0}.wo__option{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:13px;padding:15px 14px;border:1px solid rgba(239,224,189,.28);border-radius:9px;margin-bottom:12px;cursor:pointer;transition:border-color .2s,background .2s}.wo__option:has(input:checked){border-color:#e8522f;background:rgba(232,82,47,.1)}.wo__option input{position:absolute;opacity:0}.wo__radio{width:18px;height:18px;border:2px solid #cdb990;border-radius:50%}.wo__option:has(input:checked) .wo__radio{border:5px solid #e8522f}.wo__option-copy{display:flex;flex-direction:column;gap:3px}.wo__option-copy strong{font-size:.82rem;letter-spacing:.14em;text-transform:uppercase}.wo__option-copy small{color:#bfae94}.wo__price{font-weight:800}.wo__button{width:100%;border:0;border-radius:8px;padding:17px 20px;background:#e8522f;color:#fff;text-transform:uppercase;font-weight:900;letter-spacing:.14em;font-size:.9rem;cursor:pointer}.wo__button:hover{background:#ff633e}.wo__button:disabled{opacity:.5;cursor:not-allowed}@media(max-width:899px){.wo{background-attachment:scroll}.wo__header{padding:18px 22px}.wo__brand{width:82px}.wo__actions{gap:6px}.wo__account{font-size:.7rem;padding:10px 6px}.wo__content{grid-template-columns:1fr;padding:10px 22px 28px;gap:0}.wo__product-image img{width:min(100%,650px)}.wo__buy{max-width:none;padding-top:0}.wo h1{font-size:clamp(3rem,14vw,5rem)}.wo__scrim{background:linear-gradient(0deg,rgba(8,6,5,.92) 0%,rgba(8,6,5,.46) 62%,rgba(8,6,5,.35))}}
+  :root{color-scheme:dark}*{box-sizing:border-box}.skip-link{position:absolute;left:-9999px}.skip-link:focus{left:16px;top:16px;z-index:20;background:#fff;color:#000;padding:12px}.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.wo{min-height:100svh;position:relative;overflow:hidden;background:#100c09 url('https://cdn.shopify.com/s/files/1/0509/8284/6628/files/world-order-background-artwork.jpg?v=1788536886') center/cover fixed;color:#f3e5c3;font-family:Arial,Helvetica,sans-serif}.wo__scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,5,.45),rgba(8,6,5,.3) 48%,rgba(8,6,5,.86) 75%),linear-gradient(0deg,rgba(8,6,5,.55),rgba(8,6,5,.12));backdrop-filter:saturate(.8)}.wo__header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;padding:24px 4vw}.wo__brand{display:block;width:clamp(82px,8vw,126px);border-radius:50%;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.45);transition:transform .2s ease}.wo__brand:hover{transform:scale(1.04)}.wo__brand img{display:block;width:100%;height:auto}.wo__actions{display:flex;align-items:center;gap:18px}.wo__account,.wo__cart{color:#f3e5c3;text-decoration:none;font-weight:700;letter-spacing:.12em;font-size:.76rem;text-transform:uppercase;padding:12px}.wo__account:hover,.wo__cart:hover{color:#e8522f}.wo__content{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.75fr);align-items:end;gap:2vw;max-width:1600px;margin:0 auto;padding:0 4vw 4vw;min-height:calc(100svh - 130px)}.wo__product-image{align-self:end;display:flex;justify-content:center}.wo__product-image img{display:block;width:min(100%,900px);height:auto;filter:drop-shadow(0 28px 35px rgba(0,0,0,.55))}.wo__buy{align-self:center;max-width:520px;padding:28px 0}.wo__eyebrow{text-transform:uppercase;letter-spacing:.24em;color:#e85b38;font-weight:800;font-size:.72rem;margin:0 0 12px}.wo h1,.wo__subscription h2{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;line-height:.88;letter-spacing:.01em;text-transform:uppercase;margin:0;color:#efe0bd;text-shadow:0 4px 20px #000}.wo h1{font-size:clamp(3rem,5vw,6rem);max-width:8ch}.wo__intro{font-size:clamp(1rem,1.2vw,1.18rem);line-height:1.55;max-width:42ch;color:#e5d7bf;margin:22px 0 26px}.wo__form{background:rgba(14,10,8,.82);border:1px solid rgba(235,216,178,.35);padding:20px;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.35);backdrop-filter:blur(12px)}.wo__options{border:0;padding:0;margin:0}.wo__options legend{margin-bottom:14px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.wo__option{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:13px;padding:15px 14px;border:1px solid rgba(239,224,189,.28);border-radius:9px;margin-bottom:12px;cursor:pointer;transition:border-color .2s,background .2s}.wo__option:has(input:checked){border-color:#e8522f;background:rgba(232,82,47,.1)}.wo__option input{position:absolute;opacity:0}.wo__radio{width:18px;height:18px;border:2px solid #cdb990;border-radius:50%}.wo__option:has(input:checked) .wo__radio{border:5px solid #e8522f}.wo__option-copy{display:flex;flex-direction:column;gap:3px}.wo__option-copy strong{font-size:.82rem;letter-spacing:.14em;text-transform:uppercase}.wo__option-copy small{color:#bfae94}.wo__price{font-weight:800}.wo__button{width:100%;border:0;border-radius:8px;padding:17px 20px;background:#e8522f;color:#fff;text-transform:uppercase;font-weight:900;letter-spacing:.14em;font-size:.9rem;cursor:pointer}.wo__button:hover{background:#ff633e}.wo__button:disabled{opacity:.5;cursor:not-allowed}.wo__subscription{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,520px);gap:clamp(30px,6vw,90px);align-items:center;max-width:1220px;margin:0 auto 6vw;padding:clamp(28px,5vw,70px);background:rgba(12,9,8,.92);border:2px solid rgba(239,224,189,.72);border-radius:20px;box-shadow:0 24px 70px rgba(0,0,0,.55);backdrop-filter:blur(14px)}.wo__subscription h2{font-size:clamp(2.8rem,5vw,5rem);max-width:9ch}.wo__subscription-copy>p:not(.wo__eyebrow){font-size:1.08rem;line-height:1.6;color:#e5d7bf;max-width:48ch}.wo__subscription-copy ul{padding-left:20px;line-height:1.9;color:#d2c2a5}.wo__subscription-form{width:100%}.wo__subscription-price{display:flex;align-items:flex-end;gap:7px}.wo__subscription-price s{color:#9f927d;font-size:.78rem}.wo__subscription-price strong{font-size:1.05rem}.wo__terms{color:#a99a82;font-size:.72rem;line-height:1.5;margin:4px 0 16px}@media(max-width:899px){.wo{background-attachment:scroll}.wo__header{padding:18px 22px}.wo__brand{width:82px}.wo__actions{gap:4px}.wo__account,.wo__cart{font-size:.68rem;padding:10px 6px}.wo__content{grid-template-columns:1fr;padding:10px 22px 28px;gap:0}.wo__product-image img{width:min(100%,650px)}.wo__buy{max-width:none;padding-top:0}.wo h1{font-size:clamp(3rem,14vw,5rem)}.wo__subscription{grid-template-columns:1fr;margin:18px 14px 38px;padding:26px 18px}.wo__subscription h2{font-size:clamp(2.8rem,13vw,4.4rem)}.wo__scrim{background:linear-gradient(0deg,rgba(8,6,5,.92) 0%,rgba(8,6,5,.46) 62%,rgba(8,6,5,.35))}}
 {% endstylesheet %}
 
 {% javascript %}
@@ -81,6 +129,14 @@
       input.addEventListener('change', () => {
         variantId.value = input.value;
         buttonPrice.textContent = input.dataset.price;
+      });
+    });
+    const subscriptionVariantId = section.querySelector('.wo__subscription-variant-id');
+    const subscriptionButtonPrice = section.querySelector('.wo__subscription-button-price');
+    section.querySelectorAll('input[name="subscription-variant"]').forEach((input) => {
+      input.addEventListener('change', () => {
+        subscriptionVariantId.value = input.value;
+        subscriptionButtonPrice.textContent = input.dataset.price;
       });
     });
   });
