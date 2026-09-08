@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "coffee-subscription",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
