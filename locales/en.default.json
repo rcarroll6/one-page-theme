@@ -58,5 +58,17 @@
     "whatsapp_button": "Message +44 7418 362 987",
     "mystery": "We do not answer calls. We are deeply mysterious and cannot allow our true identity to be revealed to the rebels.",
     "return": "Return to shop"
+  },
+  "subscription": {
+    "eyebrow": "Join the coffee transmission",
+    "heading": "Two coffees. Every two months.",
+    "intro": "Receive two packs of a changing freshly roasted coffee every two months, reducing delivery journeys and packaging.",
+    "benefit_coffee": "A changing coffee selection with every delivery",
+    "benefit_saving": "Save 10% on every delivery",
+    "benefit_control": "Pause, skip or cancel through your account",
+    "choose_format": "Choose your two-pack format",
+    "monthly": "Two packs every two months · 10% off",
+    "terms": "Renews every two months using your saved payment and delivery details until paused or cancelled. Shipping is charged separately.",
+    "purchase": "Subscribe every two months"
   }
 }
