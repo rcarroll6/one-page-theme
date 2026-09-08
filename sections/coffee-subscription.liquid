@@ -4,6 +4,7 @@
   assign subscription_group = subscription_product.selling_plan_groups | first
   assign subscription_plan = subscription_group.selling_plans | first
 %}
+{% comment %}Rolling two-month subscription page, 20% plan display{% endcomment %}
 
 <section class="sub-page" data-subscription-page>
   <header class="sub-header">
