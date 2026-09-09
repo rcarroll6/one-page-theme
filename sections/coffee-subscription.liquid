@@ -38,14 +38,30 @@
         {% form 'product', subscription_product, class: 'sub-form' %}
           <fieldset>
             <legend class="visually-hidden">{{ 'subscription.choose_format' | t }}</legend>
-            {% for variant in subscription_product.variants %}
-              {% assign subscription_price = variant.price | times: 0.8 %}
+            {% assign format_option = subscription_product.options_with_values | first %}
+            {% for format_value in format_option.values %}
+              {% assign beans_variant = blank %}
+              {% assign ground_variant = blank %}
+              {% for variant in subscription_product.variants %}
+                {% if variant.option1 == format_value and variant.option2 == 'Beans' %}
+                  {% assign beans_variant = variant %}
+                {% elsif variant.option1 == format_value and variant.option2 == 'Ground' %}
+                  {% assign ground_variant = variant %}
+                {% endif %}
+              {% endfor %}
+              {% assign beans_subscription_price = beans_variant.price | times: 0.8 %}
+              {% assign ground_subscription_price = ground_variant.price | times: 0.8 %}
               <label class="sub-option">
-                <input type="radio" name="subscription-variant" value="{{ variant.id }}" data-price="{{ subscription_price | money }}" {% if variant.id == selected_variant.id %}checked{% endif %} {% unless variant.available %}disabled{% endunless %}>
-                <span class="sub-radio"></span><span><strong>{{ variant.title }}</strong><small>{{ 'subscription.option_note' | t }}</small></span><span class="sub-price"><s>{{ variant.price | money }}</s><b>{{ subscription_price | money }}</b></span>
+                <input type="radio" name="subscription-format" value="{{ format_value | escape }}" data-beans-id="{{ beans_variant.id }}" data-beans-price="{{ beans_subscription_price | money }}" data-beans-available="{{ beans_variant.available }}" data-ground-id="{{ ground_variant.id }}" data-ground-price="{{ ground_subscription_price | money }}" data-ground-available="{{ ground_variant.available }}" {% if selected_variant.option1 == format_value %}checked{% endif %} {% unless beans_variant.available or ground_variant.available %}disabled{% endunless %}>
+                <span class="sub-radio"></span><span><strong>{{ format_value }}</strong><small>{{ 'subscription.option_note' | t }}</small></span><span class="sub-price"><s>{{ beans_variant.price | money }}</s><b>{{ beans_subscription_price | money }}</b></span>
               </label>
             {% endfor %}
           </fieldset>
+          <label class="sub-grind-label" for="sub-grind-{{ section.id }}">{{ 'product.choose_grind' | t }}</label>
+          <select class="sub-grind" id="sub-grind-{{ section.id }}">
+            <option value="Beans" {% if selected_variant.option2 == 'Beans' %}selected{% endif %}>{{ 'product.beans' | t }}</option>
+            <option value="Ground" {% if selected_variant.option2 == 'Ground' %}selected{% endif %}>{{ 'product.ground' | t }}</option>
+          </select>
           <input data-subscription-variant-id type="hidden" name="id" value="{{ selected_variant.id }}">
           <input type="hidden" name="selling_plan" value="{{ subscription_plan.id }}">
           <p class="sub-terms">{{ 'subscription.terms' | t }}</p>
@@ -67,19 +83,27 @@
 </section>
 
 {% stylesheet %}
-  .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.sub-page{min-height:100vh;padding:24px 4vw 70px;color:#f3e5c3;background:linear-gradient(rgba(7,5,4,.32),rgba(7,5,4,.72)),url('https://cdn.shopify.com/s/files/1/0509/8284/6628/files/world-order-background-artwork.jpg?v=1788536886') center/cover fixed;font-family:Arial,Helvetica,sans-serif}.sub-header{display:flex;justify-content:space-between;align-items:flex-start;max-width:1500px;margin:0 auto 26px}.sub-logo{display:block;width:clamp(82px,8vw,126px);border-radius:50%;overflow:hidden}.sub-logo img{display:block;width:100%;height:auto}.sub-header nav{display:flex;gap:clamp(12px,3vw,44px);padding-top:18px}.sub-header nav a{color:#f3e5c3;text-decoration:none;text-transform:uppercase;font-weight:800;letter-spacing:.1em}.sub-header nav a:hover{color:#e8522f}.sub-main{max-width:1280px;margin:auto}.sub-hero,.sub-purchase,.sub-faq{background:rgba(13,10,8,.94);border:2px solid rgba(239,224,189,.75);border-radius:20px;box-shadow:0 24px 65px rgba(0,0,0,.52);backdrop-filter:blur(12px)}.sub-hero{display:grid;grid-template-columns:1fr minmax(360px,.8fr);align-items:center;overflow:hidden}.sub-copy{padding:clamp(28px,5vw,68px)}.sub-eyebrow{margin:0 0 12px;color:#e8522f;text-transform:uppercase;font-size:.72rem;font-weight:900;letter-spacing:.22em}.sub-page h1,.sub-page h2{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;text-transform:uppercase;letter-spacing:.025em}.sub-page h1{max-width:11ch;margin:0;font-size:clamp(3.4rem,6vw,6.5rem);line-height:.88}.sub-lead{font-size:clamp(1rem,1.6vw,1.3rem);line-height:1.6;color:#e0d0b4}.sub-early{margin-top:24px;padding:16px 18px;border-left:4px solid #e8522f;background:rgba(232,82,47,.11);line-height:1.55}.sub-art{align-self:stretch;display:grid;place-items:center;background:#000}.sub-art img{display:block;width:100%;height:100%;object-fit:contain}.sub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:18px 0}.sub-grid article{padding:22px;background:rgba(13,10,8,.94);border:1px solid rgba(239,224,189,.45);border-radius:10px}.sub-grid h2{margin:0 0 8px;color:#e8522f;font-size:1.35rem}.sub-grid p{margin:0;color:#d4c3a6;line-height:1.55;font-size:.9rem}.sub-purchase{display:grid;grid-template-columns:1fr minmax(380px,.9fr);gap:40px;align-items:center;padding:clamp(28px,5vw,65px)}.sub-purchase h2,.sub-faq>h2{margin:0;font-size:clamp(2.5rem,4vw,4.5rem);line-height:.95}.sub-purchase>div>p:last-child{max-width:45ch;color:#d4c3a6;line-height:1.6}.sub-form{padding:20px;background:#15110e;border:1px solid rgba(239,224,189,.4);border-radius:12px}.sub-form fieldset{border:0;padding:0;margin:0}.sub-option{display:grid;grid-template-columns:20px 1fr auto;align-items:center;gap:13px;padding:16px 14px;border:1px solid rgba(239,224,189,.28);border-radius:8px;margin-bottom:12px;cursor:pointer}.sub-option:has(input:checked){border-color:#e8522f;background:rgba(232,82,47,.1)}.sub-option input{position:absolute;opacity:0}.sub-radio{width:18px;height:18px;border:2px solid #cdb990;border-radius:50%}.sub-option:has(input:checked) .sub-radio{border:5px solid #e8522f}.sub-option strong,.sub-option small{display:block}.sub-option small{margin-top:4px;color:#ae9c81}.sub-price{display:flex;align-items:flex-end;gap:7px}.sub-price s{color:#9b886c;font-size:.78rem}.sub-form button{width:100%;padding:17px;border:0;border-radius:7px;background:#e8522f;color:#fff;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.sub-terms{color:#a99679;font-size:.75rem;line-height:1.5}.sub-faq{margin-top:18px;padding:clamp(26px,4vw,52px)}.sub-faq>h2{margin-bottom:22px}.sub-faq details{border-top:1px solid rgba(239,224,189,.28);padding:17px 0}.sub-faq summary{cursor:pointer;font-weight:800}.sub-faq details p{max-width:70ch;color:#d4c3a6;line-height:1.6}@media(max-width:850px){.sub-page{padding:18px 14px 44px;background-attachment:scroll}.sub-header nav{gap:10px;font-size:.7rem}.sub-hero,.sub-purchase{grid-template-columns:1fr}.sub-art{max-height:440px}.sub-grid{grid-template-columns:1fr 1fr}.sub-purchase{gap:20px}.sub-form{padding:15px}}@media(max-width:480px){.sub-grid{grid-template-columns:1fr}.sub-header nav a:first-child{display:none}.sub-logo{width:74px}.sub-option{grid-template-columns:18px 1fr}.sub-price{grid-column:2}.sub-page h1{font-size:3.25rem}}
+  .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.sub-page{min-height:100vh;padding:24px 4vw 70px;color:#f3e5c3;background:linear-gradient(rgba(7,5,4,.32),rgba(7,5,4,.72)),url('https://cdn.shopify.com/s/files/1/0509/8284/6628/files/world-order-background-artwork.jpg?v=1788536886') center/cover fixed;font-family:Arial,Helvetica,sans-serif}.sub-header{display:flex;justify-content:space-between;align-items:flex-start;max-width:1500px;margin:0 auto 26px}.sub-logo{display:block;width:clamp(82px,8vw,126px);border-radius:50%;overflow:hidden}.sub-logo img{display:block;width:100%;height:auto}.sub-header nav{display:flex;gap:clamp(12px,3vw,44px);padding-top:18px}.sub-header nav a{color:#f3e5c3;text-decoration:none;text-transform:uppercase;font-weight:800;letter-spacing:.1em}.sub-header nav a:hover{color:#e8522f}.sub-main{max-width:1280px;margin:auto}.sub-hero,.sub-purchase,.sub-faq{background:rgba(13,10,8,.94);border:2px solid rgba(239,224,189,.75);border-radius:20px;box-shadow:0 24px 65px rgba(0,0,0,.52);backdrop-filter:blur(12px)}.sub-hero{display:grid;grid-template-columns:1fr minmax(360px,.8fr);align-items:center;overflow:hidden}.sub-copy{padding:clamp(28px,5vw,68px)}.sub-eyebrow{margin:0 0 12px;color:#e8522f;text-transform:uppercase;font-size:.72rem;font-weight:900;letter-spacing:.22em}.sub-page h1,.sub-page h2{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;text-transform:uppercase;letter-spacing:.025em}.sub-page h1{max-width:11ch;margin:0;font-size:clamp(3.4rem,6vw,6.5rem);line-height:.88}.sub-lead{font-size:clamp(1rem,1.6vw,1.3rem);line-height:1.6;color:#e0d0b4}.sub-early{margin-top:24px;padding:16px 18px;border-left:4px solid #e8522f;background:rgba(232,82,47,.11);line-height:1.55}.sub-art{align-self:stretch;display:grid;place-items:center;background:#000}.sub-art img{display:block;width:100%;height:100%;object-fit:contain}.sub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:18px 0}.sub-grid article{padding:22px;background:rgba(13,10,8,.94);border:1px solid rgba(239,224,189,.45);border-radius:10px}.sub-grid h2{margin:0 0 8px;color:#e8522f;font-size:1.35rem}.sub-grid p{margin:0;color:#d4c3a6;line-height:1.55;font-size:.9rem}.sub-purchase{display:grid;grid-template-columns:1fr minmax(380px,.9fr);gap:40px;align-items:center;padding:clamp(28px,5vw,65px)}.sub-purchase h2,.sub-faq>h2{margin:0;font-size:clamp(2.5rem,4vw,4.5rem);line-height:.95}.sub-purchase>div>p:last-child{max-width:45ch;color:#d4c3a6;line-height:1.6}.sub-form{padding:20px;background:#15110e;border:1px solid rgba(239,224,189,.4);border-radius:12px}.sub-form fieldset{border:0;padding:0;margin:0}.sub-option{display:grid;grid-template-columns:20px 1fr auto;align-items:center;gap:13px;padding:16px 14px;border:1px solid rgba(239,224,189,.28);border-radius:8px;margin-bottom:12px;cursor:pointer}.sub-option:has(input:checked){border-color:#e8522f;background:rgba(232,82,47,.1)}.sub-option input{position:absolute;opacity:0}.sub-radio{width:18px;height:18px;border:2px solid #cdb990;border-radius:50%}.sub-option:has(input:checked) .sub-radio{border:5px solid #e8522f}.sub-option strong,.sub-option small{display:block}.sub-option small{margin-top:4px;color:#ae9c81}.sub-price{display:flex;align-items:flex-end;gap:7px}.sub-price s{color:#9b886c;font-size:.78rem}.sub-grind-label{display:block;margin:4px 0 8px;color:#f3e5c3;font-size:.76rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.sub-grind{width:100%;margin:0 0 14px;padding:13px 42px 13px 14px;border:1px solid rgba(239,224,189,.4);border-radius:8px;background:#17110d;color:#f3e5c3;font:inherit;cursor:pointer}.sub-form button{width:100%;padding:17px;border:0;border-radius:7px;background:#e8522f;color:#fff;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.sub-terms{color:#a99679;font-size:.75rem;line-height:1.5}.sub-faq{margin-top:18px;padding:clamp(26px,4vw,52px)}.sub-faq>h2{margin-bottom:22px}.sub-faq details{border-top:1px solid rgba(239,224,189,.28);padding:17px 0}.sub-faq summary{cursor:pointer;font-weight:800}.sub-faq details p{max-width:70ch;color:#d4c3a6;line-height:1.6}@media(max-width:850px){.sub-page{padding:18px 14px 44px;background-attachment:scroll}.sub-header nav{gap:10px;font-size:.7rem}.sub-hero,.sub-purchase{grid-template-columns:1fr}.sub-art{max-height:440px}.sub-grid{grid-template-columns:1fr 1fr}.sub-purchase{gap:20px}.sub-form{padding:15px}}@media(max-width:480px){.sub-grid{grid-template-columns:1fr}.sub-header nav a:first-child{display:none}.sub-logo{width:74px}.sub-option{grid-template-columns:18px 1fr}.sub-price{grid-column:2}.sub-page h1{font-size:3.25rem}}
 {% endstylesheet %}
 
 {% javascript %}
   document.querySelectorAll('[data-subscription-page]').forEach((page) => {
     const variantId = page.querySelector('[data-subscription-variant-id]');
     const price = page.querySelector('[data-subscription-price]');
-    page.querySelectorAll('input[name="subscription-variant"]').forEach((input) => {
-      input.addEventListener('change', () => {
-        variantId.value = input.value;
-        price.textContent = input.dataset.price;
-      });
-    });
+    const grind = page.querySelector('.sub-grind');
+    const button = page.querySelector('.sub-form button');
+    const formats = page.querySelectorAll('input[name="subscription-format"]');
+    const updateVariant = () => {
+      const format = page.querySelector('input[name="subscription-format"]:checked');
+      if (!format || !grind) return;
+      const key = grind.value.toLowerCase();
+      variantId.value = format.dataset[`${key}Id`];
+      price.textContent = format.dataset[`${key}Price`];
+      button.disabled = format.dataset[`${key}Available`] !== 'true';
+    };
+    formats.forEach((input) => input.addEventListener('change', updateVariant));
+    grind?.addEventListener('change', updateVariant);
+    updateVariant();
   });
 {% endjavascript %}
 
