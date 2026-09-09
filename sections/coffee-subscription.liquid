@@ -57,10 +57,11 @@
               </label>
             {% endfor %}
           </fieldset>
-          <label class="sub-grind-label" for="sub-grind-{{ section.id }}">{{ 'product.choose_grind' | t }}</label>
+          {% comment %}Two-step selector: format first, then grind{% endcomment %}
+          <label class="sub-grind-label" for="sub-grind-{{ section.id }}">{{ 'subscription.choose_grind' | t }}</label>
           <select class="sub-grind" id="sub-grind-{{ section.id }}">
-            <option value="Beans" {% if selected_variant.option2 == 'Beans' %}selected{% endif %}>{{ 'product.beans' | t }}</option>
-            <option value="Ground" {% if selected_variant.option2 == 'Ground' %}selected{% endif %}>{{ 'product.ground' | t }}</option>
+            <option value="Beans" {% if selected_variant.option2 == 'Beans' %}selected{% endif %}>{{ 'subscription.beans' | t }}</option>
+            <option value="Ground" {% if selected_variant.option2 == 'Ground' %}selected{% endif %}>{{ 'subscription.ground' | t }}</option>
           </select>
           <input data-subscription-variant-id type="hidden" name="id" value="{{ selected_variant.id }}">
           <input type="hidden" name="selling_plan" value="{{ subscription_plan.id }}">
