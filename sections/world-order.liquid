@@ -94,21 +94,21 @@
 
   <section class="wo__coffee-details" aria-labelledby="wo-coffee-details-title-{{ section.id }}">
     <div class="wo__coffee-details-heading">
-      <p class="wo__eyebrow">{{ 'coffee_details.eyebrow' | t }}</p>
-      <h2 id="wo-coffee-details-title-{{ section.id }}">{{ 'coffee_details.heading' | t }}</h2>
-      <p>{{ 'coffee_details.intro' | t }}</p>
+      <p class="wo__eyebrow">{{ section.settings.coffee_eyebrow }}</p>
+      <h2 id="wo-coffee-details-title-{{ section.id }}">{{ section.settings.coffee_heading }}</h2>
+      <p>{{ section.settings.coffee_intro }}</p>
     </div>
 
     <dl class="wo__coffee-facts">
-      <div><dt>{{ 'coffee_details.origin_title' | t }}</dt><dd>{{ 'coffee_details.origin_text' | t }}</dd></div>
-      <div><dt>{{ 'coffee_details.process_title' | t }}</dt><dd>{{ 'coffee_details.process_text' | t }}</dd></div>
-      <div><dt>{{ 'coffee_details.roast_title' | t }}</dt><dd>{{ 'coffee_details.roast_text' | t }}</dd></div>
-      <div><dt>{{ 'coffee_details.notes_title' | t }}</dt><dd>{{ 'coffee_details.notes_text' | t }}</dd></div>
+      <div><dt>{{ section.settings.origin_title }}</dt><dd>{{ section.settings.origin_text }}</dd></div>
+      <div><dt>{{ section.settings.process_title }}</dt><dd>{{ section.settings.process_text }}</dd></div>
+      <div><dt>{{ section.settings.roast_title }}</dt><dd>{{ section.settings.roast_text }}</dd></div>
+      <div><dt>{{ section.settings.notes_title }}</dt><dd>{{ section.settings.notes_text }}</dd></div>
     </dl>
 
     <div class="wo__coffee-stories">
-      <article><h3>{{ 'coffee_details.coffee_title' | t }}</h3><p>{{ 'coffee_details.coffee_text' | t }}</p></article>
-      <article><h3>{{ 'coffee_details.producer_title' | t }}</h3><p>{{ 'coffee_details.producer_text' | t }}</p></article>
+      <article><h3>{{ section.settings.coffee_story_title }}</h3><p>{{ section.settings.coffee_story_text }}</p></article>
+      <article><h3>{{ section.settings.producer_title }}</h3><p>{{ section.settings.producer_text }}</p></article>
     </div>
   </section>
 
@@ -148,7 +148,24 @@
 {% schema %}
 {
   "name": "World Order storefront",
-  "settings": [],
+  "settings": [
+    { "type": "header", "content": "Monthly coffee information" },
+    { "type": "text", "id": "coffee_eyebrow", "label": "Small heading", "default": "This month's coffee" },
+    { "type": "text", "id": "coffee_heading", "label": "Heading", "default": "World Order coffee details" },
+    { "type": "textarea", "id": "coffee_intro", "label": "Introduction", "default": "The story and essential information behind the current release." },
+    { "type": "text", "id": "origin_title", "label": "Origin heading", "default": "Origin" },
+    { "type": "text", "id": "origin_text", "label": "Origin", "default": "Coffee origin" },
+    { "type": "text", "id": "process_title", "label": "Process heading", "default": "Process" },
+    { "type": "text", "id": "process_text", "label": "Process", "default": "Processing method" },
+    { "type": "text", "id": "roast_title", "label": "Roast heading", "default": "Roast" },
+    { "type": "text", "id": "roast_text", "label": "Roast", "default": "Roast profile" },
+    { "type": "text", "id": "notes_title", "label": "Tasting notes heading", "default": "Tasting notes" },
+    { "type": "text", "id": "notes_text", "label": "Tasting notes", "default": "Featured flavours" },
+    { "type": "text", "id": "coffee_story_title", "label": "Coffee information heading", "default": "About this coffee" },
+    { "type": "textarea", "id": "coffee_story_text", "label": "Coffee information", "default": "Information about the current coffee, its growing region and the flavours customers can expect in the cup." },
+    { "type": "text", "id": "producer_title", "label": "Producer heading", "default": "The producer" },
+    { "type": "textarea", "id": "producer_text", "label": "Producer information", "default": "Information about the farm, cooperative or producer behind this coffee and what makes this release distinctive." }
+  ],
   "presets": [
     {
       "name": "World Order storefront"
