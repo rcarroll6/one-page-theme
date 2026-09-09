@@ -75,6 +75,7 @@
               </label>
             {% endfor %}
           </fieldset>
+          {% comment %}Two-step selector: format first, then grind{% endcomment %}
           <label class="wo__grind-label" for="wo-grind-{{ section.id }}">{{ 'product.choose_grind' | t }}</label>
           <select class="wo__grind" id="wo-grind-{{ section.id }}">
             <option value="Beans" {% if selected_variant.option2 == 'Beans' %}selected{% endif %}>{{ 'product.beans' | t }}</option>
