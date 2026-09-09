@@ -2,7 +2,23 @@
   "sections": {
     "world_order": {
       "type": "world-order",
-      "settings": {}
+      "settings": {
+        "coffee_eyebrow": "This month's coffee",
+        "coffee_heading": "1. World Order",
+        "coffee_intro": "<p>Deep in the Guatemalan highlands, an elite squad of Stormtroopers marches across a remote coffee farm in pursuit of the galaxy’s most powerful beans. Their mission: seize control of the harvest and establish a bold new <strong>World Order</strong>—one cup at a time.</p><p>This is Ceiba coffee and it symbolises the connection between the land and the sky. What a glorious way to mark our return from the sky than to land on the richest soil in Guatemala.</p>",
+        "origin_title": "Origin",
+        "origin_text": "Huehuetenango, Guatemala",
+        "process_title": "Process",
+        "process_text": "Washed",
+        "roast_title": "Roast",
+        "roast_text": "Medium-Dark",
+        "notes_title": "Tasting notes",
+        "notes_text": "Dark Chocolate, Dried Cherry, Toffee",
+        "coffee_story_title": "About this coffee",
+        "coffee_story_text": "Ceiba is a bright, beautifully balanced coffee, bringing together juicy notes of cherry and apricot with a rich chocolate base and a luxuriously creamy mouthfeel. Its lively acidity and smooth, comforting finish make it a wonderfully versatile choice for a wide range of brewing methods.",
+        "producer_title": "The producer",
+        "producer_text": "This is Ceiba coffee and it symbolises the connection between the land and the sky. What a glorious way to mark our return from the sky than to land on this, the richest mountainous soil in Guatemala."
+      }
     }
   },
   "order": ["world_order"]
