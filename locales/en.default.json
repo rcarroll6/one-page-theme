@@ -36,6 +36,23 @@
     "purchase": "Purchase",
     "unavailable": "World Order Coffee is temporarily unavailable."
   },
+  "coffee_details": {
+    "eyebrow": "This month's coffee",
+    "heading": "World Order coffee details",
+    "intro": "The story and essential information behind the current release.",
+    "origin_title": "Origin",
+    "origin_text": "Coffee origin",
+    "process_title": "Process",
+    "process_text": "Processing method",
+    "roast_title": "Roast",
+    "roast_text": "Roast profile",
+    "notes_title": "Tasting notes",
+    "notes_text": "Featured flavours",
+    "coffee_title": "About this coffee",
+    "coffee_text": "Information about the current coffee, its growing region and the flavours customers can expect in the cup.",
+    "producer_title": "The producer",
+    "producer_text": "Information about the farm, cooperative or producer behind this coffee and what makes this release distinctive."
+  },
   "subscription": {
     "icon_label": "Learn about the coffee subscription",
     "icon_text": "Subscribe",
